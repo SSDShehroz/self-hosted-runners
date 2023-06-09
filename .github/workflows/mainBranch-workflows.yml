@@ -1,0 +1,15 @@
+name: mainBranch Workflow
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: self-hosted
+    
+    steps:
+        
+    - name: Execute script
+      run: |
+        powershell -ExecutionPolicy Bypass -File C:\users\admin\
+
