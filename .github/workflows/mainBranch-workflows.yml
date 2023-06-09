@@ -1,15 +1,17 @@
-name: mainBranch Workflow
-on:
-  push:
-    branches:
-      - main
-jobs:
-  build:
-    runs-on: self-hosted
-    
-    steps:
-        
-    - name: Execute script
-      run: |
-        powershell -ExecutionPolicy Bypass -File C:\users\admin\
+name: Super-Linter
 
+on: push
+
+jobs:
+  super-lint:
+    name: Lint code base
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run Super-Linter
+        uses: github/super-linter@v4
+        env:
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
