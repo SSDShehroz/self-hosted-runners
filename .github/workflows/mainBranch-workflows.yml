@@ -19,7 +19,9 @@ jobs:
         run: cd secondProject npm run build
       - name: test-2
         if: ${{!contains(steps.file_changes.outputs.files_modified,'secondProject') && contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
-        run: cd selfHostedRunners npm run build
+        run: |
+          cd selfHostedRunners
+          npm run build
       - name: test-3
         if: ${{contains(steps.file_changes.outputs.files_modified,'secondProject') && contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
         run: echo 'selfHostedRunners and second project changes'
