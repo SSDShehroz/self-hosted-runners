@@ -11,7 +11,8 @@ jobs:
         uses: trilom/file-changes-action@v1.2.3
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
+          result-encoding: string
       - name: test
-        if: ${{contains(steps.file_changes.outputs.files_modified,'secondProject') && contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}}
+        # if: ${{contains(steps.file_changes.outputs.files_modified,'secondProject') && contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
         run: |
           echo '${{ steps.file_changes.outputs.files_modified}}'
