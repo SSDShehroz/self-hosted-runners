@@ -1,17 +1,18 @@
 name: Super-Linter
-
-on: push
-
+on: [push, pull_request]
 jobs:
-  super-lint:
-    name: Lint code base
+ changes:
     runs-on: self-hosted
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-#       - name: Run Super-Linter
-#         uses: github/super-linter@v4
-        env:
-          DEFAULT_BRANCH: main
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - id: file_changes
+        uses: trilom/file-changes-action@v1.2.3
+      - name: test
+        run: |
+          cat $HOME/files.json
+          cat $HOME/files_modified.json
+          cat $HOME/files_added.json
+          cat $HOME/files_removed.json
+          echo '${{ steps.file_changes.outputs.files}}'
+          echo '${{ steps.file_changes.outputs.files_modified}}'
+          echo '${{ steps.file_changes.outputs.files_added}}'
+          echo '${{ steps.file_changes.outputs.files_removed}}'
