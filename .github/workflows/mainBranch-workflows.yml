@@ -13,6 +13,5 @@ jobs:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
       - name: test
         run: |
-          cat $HOME/files_modified.json
           echo '${{ steps.file_changes.outputs.files_modified}}'
       
