@@ -12,5 +12,6 @@ jobs:
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
       - name: test
+        if: ${{contains(steps.file_changes.outputs.files_modified,'secondProject') && contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}}
         run: |
           echo '${{ steps.file_changes.outputs.files_modified}}'
