@@ -1,8 +1,8 @@
-name: Super-Linter
-on: [push, pull_request]
+name: push-develop
+on: [push]
 jobs:
- changes:
-    runs-on: self-hosted
+  changes:
+    runs-on: ubuntu-latest
     steps:
       - id: file_changes
         uses: trilom/file-changes-action@v1.2.3
