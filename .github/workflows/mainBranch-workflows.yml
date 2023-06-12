@@ -2,7 +2,7 @@ name: push-develop
 on: [push]
 jobs:
   changes:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - id: file_changes
         uses: trilom/file-changes-action@v1.2.3
