@@ -16,10 +16,10 @@ jobs:
         run: echo '${{ steps.file_changes.outputs.files_modified}}'
       - name: test-1
         if: ${{contains(steps.file_changes.outputs.files_modified,'secondProject') && !contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
-        run: echo 'Second Project changes'
+        run: cd secondProject npm run build
       - name: test-2
         if: ${{!contains(steps.file_changes.outputs.files_modified,'secondProject') && contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
-        run: echo 'selfHostedRunners project changes'
+        run: cd selfHostedRunners npm run build
       - name: test-3
         if: ${{contains(steps.file_changes.outputs.files_modified,'secondProject') && contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
         run: echo 'selfHostedRunners and second project changes'
