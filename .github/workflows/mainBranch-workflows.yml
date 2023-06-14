@@ -12,19 +12,15 @@ jobs:
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           result-encoding: string
-      - name: test
-        run: echo '${{ steps.file_changes.outputs.files_modified}}'
-      - name: test-1
+      - name: check secondProject changes
         if: ${{contains(steps.file_changes.outputs.files_modified,'secondProject') && !contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
-        run: cd secondProject npm run build
-      - name: test-2
+        run: echo "projectSelection=secondProject" >> $GITHUB_ENV
+      - name: check selfHostedRunners changes
         if: ${{!contains(steps.file_changes.outputs.files_modified,'secondProject') && contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
-        run: |
-          cd selfHostedRunners
-          npm run build
-      - name: test-3
+        run:  echo "projectSelection=selfHostedRunners" >> $GITHUB_ENV
+      - name:  check all project changes
         if: ${{contains(steps.file_changes.outputs.files_modified,'secondProject') && contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
-        run: echo 'selfHostedRunners and second project changes'
-      - name: test-4
+        run:  echo "projectSelection=all" >> $GITHUB_ENV
+      - name: other file changes check
         if: ${{!contains(steps.file_changes.outputs.files_modified,'secondProject') && !contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
-        run: echo 'except selfHostedRunners and second project changes'
+        run:  echo "projectSelection=nothing" >> $GITHUB_ENV
