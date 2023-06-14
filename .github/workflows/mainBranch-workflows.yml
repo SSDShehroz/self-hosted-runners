@@ -48,7 +48,6 @@ jobs:
         if: ${{env.projectSelection != 'nothing' && env.projectSelection != 'all'}}
         run: |
           # Run the PowerShell script
-          cd C:\powerShellScript\angular\build\
-          powershell -ExecutionPolicy Bypass -File angularBuildScript.ps1
+          Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -File  C:\powerShellScript\angular\build\angularBuildScript.ps1
 
 
