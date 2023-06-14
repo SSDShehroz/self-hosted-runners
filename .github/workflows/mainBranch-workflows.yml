@@ -50,6 +50,6 @@ jobs:
         uses: actions/checkout@v2
 
       - name: display-item
-        run:  echo ${{env.projectSelection}}
+        run:  echo $env.projectSelection
         
 
