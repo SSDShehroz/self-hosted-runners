@@ -21,15 +21,15 @@ jobs:
         if: ${{contains(steps.file_changes.outputs.files_modified,'secondProject') && !contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
         run: |
           echo "PROJECT_SELECTION=secondProject" >> $GITHUB_ENV
-          echo "PROJECT_PATH=C:\\Users\\Admin\\self-hosted-runners\\secondProject" >> $GITHUB_ENV
-          echo "OUTPUT_PATH=C:\\output\\angular\\secondProject" >> $GITHUB_ENV
+          echo "PROJECT_PATH=C:\Users\Admin\self-hosted-runners\secondProject" >> $GITHUB_ENV
+          echo "OUTPUT_PATH=C:\output\angular\secondProject" >> $GITHUB_ENV
 
       - name: check selfHostedRunners changes
         if: ${{!contains(steps.file_changes.outputs.files_modified,'secondProject') && contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
         run: |
           echo "PROJECT_SELECTION=selfHostedRunners" >> $GITHUB_ENV
-          echo "PROJECT_PATH=C:\\Users\\Admin\\self-hosted-runners\\selfHostedRunners" >> $GITHUB_ENV
-          echo "OUTPUT_PATH=C:\\output\\angular\\secondProject" >> $GITHUB_ENV
+          echo "PROJECT_PATH=C:\Users\Admin\self-hosted-runners\selfHostedRunners" >> $GITHUB_ENV
+          echo "OUTPUT_PATH=C:\output\angular\secondProject" >> $GITHUB_ENV
 
       - name:  check all project changes
         if: ${{contains(steps.file_changes.outputs.files_modified,'secondProject') && contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
@@ -47,8 +47,8 @@ jobs:
         shell: bash
         run: |
           # Run the PowerShell script
-          cd ${{env.PROJECT_PATH}}
-          ng build --prod --output-path ${{env.OUTPUT_PATH}}
+          cd C:\Users\Admin\self-hosted-runners\secondProject
+          ng build --prod --output-path C:\output\angular\secondProject
 
       - name: Build Angular project name selfHostedRunners
         if: ${{env.PROJECT_SELECTION == 'selfHostedRunners'}}
