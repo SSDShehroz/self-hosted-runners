@@ -42,12 +42,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build Angular project
-        if: ${{env.PROJECT_SELECTION != 'nothing' && env.PROJECT_SELECTION != 'all'}}
+      - name: Build Angular project name secondProject
+        if: ${{env.PROJECT_SELECTION == 'secondProject'}}
         run: |
           # Run the PowerShell script
           powershell -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\angularBuildScript.ps1
 
+      - name: Build Angular project name selfHostedRunners
+        if: ${{env.PROJECT_SELECTION == 'selfHostedRunners'}}
+        run: |
+          # Run the PowerShell script
+          powershell -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\angularBuildScript.ps1
+      
+      # - name: Build Angular projects
+      #   if: ${{env.PROJECT_SELECTION == 'all'}}
+      #   run: |
+      #     # Run the PowerShell script
+      #     powershell -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\angularBuildScript.ps1
+      #     powershell -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\angularBuildScript.ps1
 
   # build: 
   #   runs-on: self-hosted
