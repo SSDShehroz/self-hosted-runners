@@ -4,9 +4,9 @@ on:
     branches:
       - main
 env:
-  projectSelection: ''
-  projectPath: ''
-  outPutPath: ''
+  projectSelection: secondProject
+  projectPath: C:\Users\Admin\self-hosted-runners\secondProject"
+  outPutPath: C:\output\angular\secondProject"
 
 jobs:
   changes:
@@ -21,25 +21,24 @@ jobs:
       - name: check secondProject changes
         if: ${{contains(steps.file_changes.outputs.files_modified,'secondProject') && !contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
         run: |
-          echo "$env.projectSelection=secondProject" >> $GITHUB_ENV
-          echo "$env.projectPath=C:\Users\Admin\self-hosted-runners\secondProject" >> $GITHUB_ENV
-          echo "$env.outPutPath=C:\output\angular\secondProject" >> $GITHUB_ENV
+          echo "$projectSelection=secondProject" >> $GITHUB_ENV
+          echo "$projectPath=C:\Users\Admin\self-hosted-runners\secondProject" >> $GITHUB_ENV
+          echo "$outPutPath=C:\output\angular\secondProject" >> $GITHUB_ENV
 
       - name: check selfHostedRunners changes
         if: ${{!contains(steps.file_changes.outputs.files_modified,'secondProject') && contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
         run: |
-          echo "$env.projectSelection=selfHostedRunners" >> $GITHUB_ENV
-          echo "$env.projectPath=C:\Users\Admin\self-hosted-runners\selfHostedRunners" >> $GITHUB_ENV
-          echo "$env.outPutPath=C:\output\angular\secondProject" >> $GITHUB_ENV
+          echo "$projectSelection=selfHostedRunners" >> $GITHUB_ENV
+          echo "$projectPath=C:\Users\Admin\self-hosted-runners\selfHostedRunners" >> $GITHUB_ENV
+          echo "$outPutPath=C:\output\angular\secondProject" >> $GITHUB_ENV
 
       - name:  check all project changes
         if: ${{contains(steps.file_changes.outputs.files_modified,'secondProject') && contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
-        run:   echo "$env.projectSelection=all" >> $GITHUB_ENV
+        run:   echo "$projectSelection=all" >> $GITHUB_ENV
 
       - name: other file changes check
         if: ${{!contains(steps.file_changes.outputs.files_modified,'secondProject') && !contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
-        run:  echo "$env.projectSelection=nothing" >> $GITHUB_ENV
-      
+        run:  echo "$projectSelection=nothing" >> $GITHUB_ENV
 
 
   build: 
@@ -51,9 +50,14 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build Angular project
-        if: ${{ env.projectSelection != 'nothing' && env.projectSelection != 'all'}}
         run: |
-          # Run the PowerShell script
-          powershell -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\angularBuildScript.ps1
+          echo "$projectSelection"
+        # if: ${{ $projectSelection != 'nothing' && $projectSelection != 'all'}}
+        # run: |
+        #   # Run the PowerShell script
+        #   powershell -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\angularBuildScript.ps1
+
+
+  
         
 
