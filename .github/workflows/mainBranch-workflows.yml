@@ -30,7 +30,7 @@ jobs:
           });
           const changedFiles = compareCommits.data.files.map(file => file.filename);
           console.log('Changed files:', changedFiles.join('\n'));
-          
+          echo "FILES=changedFiles.join('\n')" >> $GITHUB_ENV
 
     - name: DISPLAY
       run: echo ${{env.FILES}}
