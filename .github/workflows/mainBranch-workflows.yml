@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+env:
+  FILES:
+  PROJECT_SELECTIONS:
 
 jobs:
   check_changes:
@@ -27,4 +30,7 @@ jobs:
           });
           const changedFiles = compareCommits.data.files.map(file => file.filename);
           console.log('Changed files:', changedFiles.join('\n'));
-          return changedFiles;
+          echo "FILES=changedFiles.join('\n')" >> $GITHUB_ENV
+
+    - name: DISPLAY
+      run: echo ${{env.FILES}}
