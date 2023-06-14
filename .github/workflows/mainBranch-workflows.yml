@@ -8,75 +8,29 @@ env:
   PROJECT_PATH:
   OUTPUT_PATH:
 jobs:
-  changes:
+  detect_changes:
     runs-on: ubuntu-latest
+    
     steps:
-      - id: file_changes
-        uses: trilom/file-changes-action@v1.2.4
-        with:
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
-          result-encoding: string
-
-      - name: check secondProject changes
-        if: ${{contains(steps.file_changes.outputs.files_modified,'secondProject') && !contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
-        run: |
-          echo "PROJECT_SELECTION=secondProject" >> $GITHUB_ENV
-          echo "PROJECT_PATH=C:\Users\Admin\self-hosted-runners\secondProject" >> $GITHUB_ENV
-          echo "OUTPUT_PATH=C:\output\angular\secondProject" >> $GITHUB_ENV
-
-      - name: check selfHostedRunners changes
-        if: ${{!contains(steps.file_changes.outputs.files_modified,'secondProject') && contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
-        run: |
-          echo "PROJECT_SELECTION=selfHostedRunners" >> $GITHUB_ENV
-          echo "PROJECT_PATH=C:\Users\Admin\self-hosted-runners\selfHostedRunners" >> $GITHUB_ENV
-          echo "OUTPUT_PATH=C:\output\angular\secondProject" >> $GITHUB_ENV
-
-      - name:  check all project changes
-        if: ${{contains(steps.file_changes.outputs.files_modified,'secondProject') && contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
-        run:   echo "PROJECT_SELECTION=all" >> $GITHUB_ENV
-
-      - name: other file changes check
-        if: ${{!contains(steps.file_changes.outputs.files_modified,'secondProject') && !contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
-        run:  echo "PROJECT_SELECTION=nothing" >> $GITHUB_ENV
-
-      
-
-  build: 
-    runs-on: self-hosted
-    needs: [changes]
-    steps:
-      - name: Build Angular project name secondProject
-        if: ${{contains(env.PROJECT_SELECTION,'sadasd')}}
-        id: powerShellScript
-        uses: Amadevus/pwsh-script@v2.0.3
-        with:
-          script: |
-            cd C:\Users\Admin\self-hosted-runners\secondProject
-            ng build --prod --output-path C:\output\angular\secondProject
-      - run: echo "${{ env.PROJECT_SELECTION }}"
-
-      # - name: Checkout code
-      #   uses: actions/checkout@v2
-      
-      # - name: Install PowerShell Core
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get install -y powershell
-
-      # - name: Build Angular project name secondProject
-      #   id: powerShellScript
-      #   uses: Amadevus/pwsh-script@v2.0.3
-      #   with:
-      #     script: |
-      #       cd C:\Users\Admin\self-hosted-runners\secondProject
-      #       ng build --prod --output-path C:\output\angular\secondProject
-      # - run: echo "${{ steps.powerShellScript.outputs.result }}"
-
-      # - name: Build Angular project name selfHostedRunners
-      #   if: ${{env.PROJECT_SELECTION == 'selfHostedRunners'}}
-      #   run: |
-      #     # Run the PowerShell script
-      #     pwsh -ExecutionPolicy Bypass -File C:\\powerShellScript\\angular\\build\\secondProject.ps1
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    
+    - name: Detect file changes
+      id: file_changes
+      run: |
+        echo "Added files:"
+        echo "${{ steps.file_changes.outputs.added }}"
+        echo "Modified files:"
+        echo "${{ steps.file_changes.outputs.modified }}"
+        echo "Deleted files:"
+        echo "${{ steps.file_changes.outputs.deleted }}"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Print file changes
+      run: |
+        echo "Changed files:"
+        echo "${{ steps.file_changes.outputs.changed_files }}"
 
       
 
