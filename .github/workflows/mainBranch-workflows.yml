@@ -1,12 +1,10 @@
-name: push-develop
+name: File Changes Workflow
+
 on:
   push:
     branches:
       - main
-env:
-  PROJECT_SELECTION:
-  PROJECT_PATH:
-  OUTPUT_PATH:
+
 jobs:
   detect_changes:
     runs-on: ubuntu-latest
@@ -16,25 +14,16 @@ jobs:
       uses: actions/checkout@v2
     
     - name: Detect file changes
-      id: file_changes
-      run: |
-        echo "Added files:"
-        echo "${{ steps.file_changes.outputs.added }}"
-        echo "Modified files:"
-        echo "${{ steps.file_changes.outputs.modified }}"
-        echo "Deleted files:"
-        echo "${{ steps.file_changes.outputs.deleted }}"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    
-    - name: Print file changes
-      run: |
-        echo "Changed files:"
-        echo "${{ steps.file_changes.outputs.changed_files }}"
-
-      
-
-
-  
-        
-
+      uses: actions/github-script@v4
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const compareCommits = await github.repos.compareCommits({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            base: context.payload.before,
+            head: context.payload.after
+          });
+          
+          const changedFiles = compareCommits.data.files.map(file => file.filename);
+          console.log("Changed files:", changedFiles);
