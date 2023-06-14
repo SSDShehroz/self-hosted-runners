@@ -31,8 +31,8 @@ jobs:
           const changedFiles = compareCommits.data.files.map(file => file.filename);
           console.log('Changed files:', changedFiles.join('\n'));
           return changedFiles.join('\n')
-        run: |
-          echo "${{ steps.file_changes.outputs.result }}"
+    - run: |
+        echo "${{ steps.file_changes.outputs.result }}"
         
 
     - name: DISPLAY
