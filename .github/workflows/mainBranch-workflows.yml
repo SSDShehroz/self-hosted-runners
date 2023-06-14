@@ -41,11 +41,14 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: display-item
+        run: echo ${{env.projectSelection}}
         
-      - name: Build Angular project
-        if: env.projectSelection != 'nothing' && env.projectSelection != 'all'
-        run: |
-          # Run the PowerShell script
-          powershell -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\angularBuildScript.ps1
+      # - name: Build Angular project
+      #   if: env.projectSelection != 'nothing' && env.projectSelection != 'all'
+      #   run: |
+      #     # Run the PowerShell script
+      #     powershell -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\angularBuildScript.ps1
 
 
