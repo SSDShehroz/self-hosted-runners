@@ -3,6 +3,11 @@ on:
   push:
     branches:
       - main
+env:
+  projectSelection: ''
+  projectPath: ''
+  outPutPath: ''
+
 jobs:
   changes:
     runs-on: ubuntu-latest
@@ -45,6 +50,6 @@ jobs:
         uses: actions/checkout@v2
 
       - name: display-item
-        run:  echo $env.projectSelection
+        run:  echo ${{env.projectSelection}}
         
 
