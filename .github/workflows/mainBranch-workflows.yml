@@ -47,8 +47,8 @@ jobs:
         shell: bash
         run: |
           # Run the PowerShell script
-          cd C:\Users\Admin\self-hosted-runners\secondProject
-          ng build --prod --output-path C:\output\angular\secondProject
+          cd `C:\Users\Admin\self-hosted-runners\secondProject`
+          ng build --prod --output-path `C:\output\angular\secondProject`
 
       - name: Build Angular project name selfHostedRunners
         if: ${{env.PROJECT_SELECTION == 'selfHostedRunners'}}
