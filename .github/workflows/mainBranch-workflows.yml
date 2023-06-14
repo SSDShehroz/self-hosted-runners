@@ -38,24 +38,23 @@ jobs:
       - name: other file changes check
         if: ${{!contains(steps.file_changes.outputs.files_modified,'secondProject') && !contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
         run:  echo "projectSelection=nothing" >> $GITHUB_ENV
+      
+
+
+  build: 
+    runs-on: self-hosted
+    needs: [changes]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: display-item
         run:  echo ${{env.projectSelection}}
-
-
-  # build: 
-  #   runs-on: self-hosted
-  #   needs: [changes]
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v2
-
-  #     - name: display-item
-  #       run: echo $env.projectSelection
         
-  #     # - name: Build Angular project
-  #     #   if: env.projectSelection != 'nothing' && env.projectSelection != 'all'
-  #     #   run: |
-  #     #     # Run the PowerShell script
-  #     #     powershell -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\angularBuildScript.ps1
+      # - name: Build Angular project
+      #   if: env.projectSelection != 'nothing' && env.projectSelection != 'all'
+      #   run: |
+      #     # Run the PowerShell script
+      #     powershell -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\angularBuildScript.ps1
 
 
