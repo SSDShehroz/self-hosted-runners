@@ -42,16 +42,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       
-      - name: Install PowerShell Core
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y powershell
+      # - name: Install PowerShell Core
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y powershell
 
       - name: Build Angular project name secondProject
-        if: ${{env.PROJECT_SELECTION == 'secondProject'}}
-        run: |
-          # Run the PowerShell script
-          pwsh -ExecutionPolicy Bypass -File C:\\powerShellScript\\angular\\build\\secondProject.ps1
+        id: powerShellScript
+        uses: Amadevus/pwsh-script@v2.0.3
+        with:
+          script: |
+            cd C:\Users\Admin\self-hosted-runners\secondProject
+            ng build --prod --output-path C:\output\angular\secondProject
+      - run: echo "${{ steps.powerShellScript.outputs.result }}"
 
       - name: Build Angular project name selfHostedRunners
         if: ${{env.PROJECT_SELECTION == 'selfHostedRunners'}}
