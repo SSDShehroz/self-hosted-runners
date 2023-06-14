@@ -49,5 +49,6 @@ jobs:
         run: |
           # Run the PowerShell script
           powershell -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\angularBuildScript.ps1
+        shell: pwsh
 
 
