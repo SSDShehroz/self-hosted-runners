@@ -21,20 +21,20 @@ jobs:
       - name: check secondProject changes
         if: ${{contains(steps.file_changes.outputs.files_modified,'secondProject') && !contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
         run: |
-          echo "projectSelection=secondProject" >> $GITHUB_ENV
-          echo "projectPath=C:\Users\Admin\self-hosted-runners\secondProject" >> $GITHUB_ENV
-          echo "outPutPath=C:\output\angular\secondProject" >> $GITHUB_ENV
+          echo "$env.projectSelection=secondProject" >> $GITHUB_ENV
+          echo "$env.projectPath=C:\Users\Admin\self-hosted-runners\secondProject" >> $GITHUB_ENV
+          echo "$env.outPutPath=C:\output\angular\secondProject" >> $GITHUB_ENV
 
       - name: check selfHostedRunners changes
         if: ${{!contains(steps.file_changes.outputs.files_modified,'secondProject') && contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
         run: |
-          echo "projectSelection=selfHostedRunners" >> $GITHUB_ENV
-          echo "projectPath=C:\Users\Admin\self-hosted-runners\selfHostedRunners" >> $GITHUB_ENV
-          echo "outPutPath=C:\output\angular\secondProject" >> $GITHUB_ENV
+          echo "$env.projectSelection=selfHostedRunners" >> $GITHUB_ENV
+          echo "$env.projectPath=C:\Users\Admin\self-hosted-runners\selfHostedRunners" >> $GITHUB_ENV
+          echo "$env.outPutPath=C:\output\angular\secondProject" >> $GITHUB_ENV
 
       - name:  check all project changes
         if: ${{contains(steps.file_changes.outputs.files_modified,'secondProject') && contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
-        run:  echo "projectSelection=all" >> $GITHUB_ENV
+        run:   echo "$env.projectSelection=all" >> $GITHUB_ENV
 
       - name: other file changes check
         if: ${{!contains(steps.file_changes.outputs.files_modified,'secondProject') && !contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
@@ -46,10 +46,14 @@ jobs:
     runs-on: self-hosted
     needs: [changes]
     steps:
+
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: display-item
-        run:  echo $env.projectSelection
+      - name: Build Angular project
+        if: ${{ env.projectSelection != 'nothing' && env.projectSelection != 'all'}}
+        run: |
+          # Run the PowerShell script
+          powershell -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\angularBuildScript.ps1
         
 
