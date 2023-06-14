@@ -53,7 +53,7 @@ jobs:
           script: |
             cd C:\Users\Admin\self-hosted-runners\secondProject
             ng build --prod --output-path C:\output\angular\secondProject
-      - run: echo "${{ steps.powerShellScript.outputs.result }}"
+      - run: echo "${{ env.PROJECT_SELECTION }}"
 
       # - name: Checkout code
       #   uses: actions/checkout@v2
