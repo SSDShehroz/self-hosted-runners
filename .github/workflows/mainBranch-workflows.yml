@@ -33,6 +33,7 @@ jobs:
           return changedFiles.join('\n')
     - run: |
         echo "${{ steps.file_changes.outputs.result }}"
+        echo "FILES=steps.file_changes.outputs.result" >> $GITHUB_ENV
         
 
     - name: DISPLAY
