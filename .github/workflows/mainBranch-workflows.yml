@@ -51,7 +51,7 @@ jobs:
 
       - name: Build Angular project
         run: |
-          echo "$projectSelection"
+          echo "$projectSelection!"
         # if: ${{ $projectSelection != 'nothing' && $projectSelection != 'all'}}
         # run: |
         #   # Run the PowerShell script
