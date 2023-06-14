@@ -14,21 +14,40 @@ jobs:
           result-encoding: string
       - name: file changes value store
         run: echo "fileChanges=steps.file_changes.outputs.files_modified" >> $GITHUB_ENV
+
       - name: check secondProject changes
         if: ${{contains(env.fileChanges,'secondProject') && !contains(env.fileChanges,'selfHostedRunners')}} 
-        run: echo "projectSelection=secondProject" >> $GITHUB_ENV
+        run: |
+          echo "projectSelection=secondProject" >> $GITHUB_ENV
+          echo "projectPath=C:\Users\Admin\self-hosted-runners\secondProject" >> $GITHUB_ENV
+          echo "outPutPath=C:\output\angular\secondProject" >> $GITHUB_ENV
+
       - name: check selfHostedRunners changes
         if: ${{!contains(env.fileChanges,'secondProject') && contains(env.fileChanges,'selfHostedRunners')}} 
-        run:  echo "projectSelection=selfHostedRunners" >> $GITHUB_ENV
+        run: |
+          echo "projectSelection=selfHostedRunners" >> $GITHUB_ENV
+          echo "projectPath=C:\Users\Admin\self-hosted-runners\selfHostedRunners" >> $GITHUB_ENV
+          echo "outPutPath=C:\output\angular\secondProject" >> $GITHUB_ENV
+
       - name:  check all project changes
         if: ${{contains(env.fileChanges,'secondProject') && contains(env.fileChanges,'selfHostedRunners')}} 
         run:  echo "projectSelection=all" >> $GITHUB_ENV
+
       - name: other file changes check
         if: ${{!contains(env.fileChanges,'secondProject') && !contains(env.fileChanges,'selfHostedRunners')}} 
         run:  echo "projectSelection=nothing" >> $GITHUB_ENV
-  # build: 
-  #   runs-on: self-hosted
-  #   needs: [changes]
-  #   steps:
+
+  build: 
+    runs-on: self-hosted
+    needs: [changes]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Build Angular project
+        if: ${{env.projectSelection != 'nothing' && env.projectSelection != 'all'}}
+        run: |
+          # Run the PowerShell script
+          powershell -File path/to/your/powershell/script.ps1
 
 
