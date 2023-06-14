@@ -12,17 +12,23 @@ jobs:
         with:
           githubToken: ${{ secrets.GITHUB_TOKEN }}
           result-encoding: string
+      - name: file changes value store
+        run: echo "fileChanges=steps.file_changes.outputs.files_modified" >> $GITHUB_ENV
       - name: check secondProject changes
-        if: ${{contains(steps.file_changes.outputs.files_modified,'secondProject') && !contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
+        if: ${{contains(env.fileChanges,'secondProject') && !contains(env.fileChanges,'selfHostedRunners')}} 
         run: echo "projectSelection=secondProject" >> $GITHUB_ENV
       - name: check selfHostedRunners changes
-        if: ${{!contains(steps.file_changes.outputs.files_modified,'secondProject') && contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
+        if: ${{!contains(env.fileChanges,'secondProject') && contains(env.fileChanges,'selfHostedRunners')}} 
         run:  echo "projectSelection=selfHostedRunners" >> $GITHUB_ENV
       - name:  check all project changes
-        if: ${{contains(steps.file_changes.outputs.files_modified,'secondProject') && contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
+        if: ${{contains(env.fileChanges,'secondProject') && contains(env.fileChanges,'selfHostedRunners')}} 
         run:  echo "projectSelection=all" >> $GITHUB_ENV
       - name: other file changes check
-        if: ${{!contains(steps.file_changes.outputs.files_modified,'secondProject') && !contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
+        if: ${{!contains(env.fileChanges,'secondProject') && !contains(env.fileChanges,'selfHostedRunners')}} 
         run:  echo "projectSelection=nothing" >> $GITHUB_ENV
-      - name: show set varibale value
-        run: echo ${{env.projectSelection}}
+  # build: 
+  #   runs-on: self-hosted
+  #   needs: [changes]
+  #   steps:
+
+
