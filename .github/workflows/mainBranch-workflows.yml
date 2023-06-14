@@ -3,6 +3,10 @@ on:
   push:
     branches:
       - main
+env:
+  projectSelection: ""
+  projectPath: ""
+  outPutPath: ""
 jobs:
   changes:
     runs-on: ubuntu-latest
