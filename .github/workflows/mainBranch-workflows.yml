@@ -36,5 +36,5 @@ jobs:
         echo "FILES=${{ steps.file_changes.outputs.result }}" >> $GITHUB_ENV
         
 
-    - name: DISPLAY
+    - name: display-item
       run: echo ${{env.FILES}}
