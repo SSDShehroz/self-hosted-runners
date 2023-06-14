@@ -44,16 +44,19 @@ jobs:
 
       - name: Build Angular project name secondProject
         if: ${{env.PROJECT_SELECTION == 'secondProject'}}
+        shell: bash
         run: |
           # Run the PowerShell script
-          powershell -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\secondProject.ps1
+          cd ${{env.PROJECT_PATH}}
+          ng build --prod --output-path ${{env.OUTPUT_PATH}}
 
       - name: Build Angular project name selfHostedRunners
         if: ${{env.PROJECT_SELECTION == 'selfHostedRunners'}}
-        shell: pwsh
+        shell: bash
         run: |
           # Run the PowerShell script
-          powershell -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\secondProject.ps1
+          cd ${{env.PROJECT_PATH}}
+          ng build --prod --output-path ${{env.OUTPUT_PATH}}
       
       # - name: Build Angular projects
       #   if: ${{env.PROJECT_SELECTION == 'all'}}
