@@ -6,14 +6,15 @@ on:
       - main
 
 jobs:
-  detect_changes:
-    runs-on: self-hosted
-    
+  check_changes:
+    runs-on: ubuntu-latest
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-    
+
     - name: Detect file changes
+      id: file_changes
       uses: actions/github-script@v4
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -22,8 +23,8 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             base: context.payload.before,
-            head: context.payload.after
+            head: context.payload.after,
           });
-          
           const changedFiles = compareCommits.data.files.map(file => file.filename);
-          console.log("Changed files:", changedFiles);
+          console.log('Changed files:', changedFiles.join('\n'));
+          return changedFiles;
