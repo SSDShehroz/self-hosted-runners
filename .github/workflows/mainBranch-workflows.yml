@@ -39,16 +39,13 @@ jobs:
         if: ${{!contains(steps.file_changes.outputs.files_modified,'secondProject') && !contains(steps.file_changes.outputs.files_modified,'selfHostedRunners')}} 
         run:  echo "PROJECT_SELECTION=nothing" >> $GITHUB_ENV
 
-
-      
-
-  build: 
-    runs-on: self-hosted
-    needs: [changes]
-    steps:
-      
       - name: Checkout code
         uses: actions/checkout@v2
+      
+      - name: Install PowerShell Core
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y powershell
 
       - name: Build Angular project name secondProject
         if: ${{env.PROJECT_SELECTION == 'secondProject'}}
@@ -62,6 +59,11 @@ jobs:
           # Run the PowerShell script
           powershell -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\secondProject.ps1
       
+
+  # build: 
+  #   runs-on: self-hosted
+  #   needs: [changes]
+  #   steps:
 
       
 
