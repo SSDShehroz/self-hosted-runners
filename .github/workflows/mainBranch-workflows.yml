@@ -48,6 +48,6 @@ jobs:
         if: ${{env.projectSelection != 'nothing' && env.projectSelection != 'all'}}
         run: |
           # Run the PowerShell script
-          powershell -File path/to/your/powershell/script.ps1
+          powershell -File C:\powerShellScript\angular\build\angularBuildScript.ps1
 
 
