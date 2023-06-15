@@ -5,15 +5,13 @@ on:
     branches:
       - main
 
-env:
-  PROJECT_SELECTION:
-  PROJECT_PATH:
-  OUTPUT_PATH:
-  
-
 jobs:
   check_changes:
     runs-on: self-hosted
+    env:
+      PROJECT_SELECTION:
+      PROJECT_PATH:
+      OUTPUT_PATH:
     steps:
 
     - name: Checkout repository
@@ -35,7 +33,9 @@ jobs:
           return changedFiles.join(',');
         
     - name: Display Files
-      run: echo ${{steps.file_changes.outputs.result}}
+      run: |
+        echo ${{steps.file_changes.outputs.result}}
+       
     
     - name: check secondProject changes
       if: ${{contains(steps.file_changes.outputs.result,'secondProject') && !contains(steps.file_changes.outputs.result,'selfHostedRunners')}} 
@@ -58,6 +58,8 @@ jobs:
     - name: other file changes check
       if: ${{!contains(steps.file_changes.outputs.result,'secondProject') && !contains(steps.file_changes.outputs.result,'selfHostedRunners')}} 
       run:  echo "PROJECT_SELECTION=nothing" >> $GITHUB_ENV
+    
+    - run:  echo ${{env.PROJECT_PATH}}
 
     - name: Build Angular project name secondProject
       if: ${{env.PROJECT_SELECTION == 'secondProject'}}
