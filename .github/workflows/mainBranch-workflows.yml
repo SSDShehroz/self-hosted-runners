@@ -63,6 +63,10 @@ jobs:
     runs-on: self-hosted
     needs: [check_changes]
     steps:
+
+      - name: Display Files
+        run: echo ${{github.env}}
+
       - name: Build Angular project name secondProject
         if: ${{env.PROJECT_SELECTION == 'secondProject'}}
         run: |
