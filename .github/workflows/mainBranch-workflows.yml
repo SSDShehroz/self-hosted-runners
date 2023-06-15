@@ -71,6 +71,7 @@ jobs:
         # Run the PowerShell script
         powershell -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\selfHostedRunners.ps1
 
+        
   # build: 
   #   runs-on: self-hosted
   #   needs: [check_changes]
