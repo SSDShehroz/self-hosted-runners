@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  check_changes:
+  build:
     runs-on: self-hosted
     env:
       PROJECT_SELECTION:
