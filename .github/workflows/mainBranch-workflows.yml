@@ -69,7 +69,7 @@ jobs:
       if: ${{contains(steps.file_changes.outputs.result,'selfHostedRunners')}}
       run: |
         # Run the PowerShell script
-        powershell -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\secondProject.ps1
+        powershell -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\selfHostedRunners.ps1
 
   # build: 
   #   runs-on: self-hosted
