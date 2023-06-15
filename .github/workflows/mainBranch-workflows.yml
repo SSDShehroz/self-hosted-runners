@@ -64,7 +64,7 @@ jobs:
     needs: [check_changes]
     steps:
       - name: Build Angular project name secondProject
-        if: ${{env.PROJECT_SELECTION == 'selfHostedRunners'}}
+        if: ${{env.PROJECT_SELECTION == 'secondProject'}}
         run: |
           # Run the PowerShell script
           pwsh -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\secondProject.ps1
