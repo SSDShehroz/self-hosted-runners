@@ -21,7 +21,6 @@ jobs:
       uses: actions/github-script@v4
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        result-encoding: string
         script: |
           const compareCommits = await github.repos.compareCommits({
             owner: context.repo.owner,
@@ -30,12 +29,8 @@ jobs:
             head: context.payload.after,
           });
           const changedFiles = compareCommits.data.files.map(file => file.filename);
-          console.log('Changed files:', changedFiles.join('\n'));
-          return changedFiles.join('\n')
-    - run: |
-        echo "${{ steps.file_changes.outputs.result }}"
-        echo "FILES=${{ steps.file_changes.outputs.result }}" >> $GITHUB_ENV
+          console.log('compareCommits:', compareCommits);
+          return changedFiles.join(' ');
         
-
     - name: display-item
-      run: echo ${{env.FILES}}
+      run: echo ${{steps.file_changes.outputs.result}}
