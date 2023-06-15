@@ -59,22 +59,34 @@ jobs:
       if: ${{!contains(steps.file_changes.outputs.result,'secondProject') && !contains(steps.file_changes.outputs.result,'selfHostedRunners')}} 
       run:  echo "PROJECT_SELECTION=nothing" >> $GITHUB_ENV
 
-  build: 
-    runs-on: self-hosted
-    needs: [check_changes]
-    steps:
+    - name: Build Angular project name secondProject
+      if: ${{env.PROJECT_SELECTION == 'secondProject'}}
+      run: |
+        # Run the PowerShell script
+        pwsh -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\secondProject.ps1
 
-      - name: Display Files
-        run: echo ${{github.env.PROJECT_SELECTION}}
+    - name: Build Angular project name selfHostedRunners
+      if: ${{env.PROJECT_SELECTION == 'selfHostedRunners'}}
+      run: |
+        # Run the PowerShell script
+        pwsh -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\secondProject.ps1
 
-      - name: Build Angular project name secondProject
-        if: ${{env.PROJECT_SELECTION == 'secondProject'}}
-        run: |
-          # Run the PowerShell script
-          pwsh -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\secondProject.ps1
+  # build: 
+  #   runs-on: self-hosted
+  #   needs: [check_changes]
+  #   steps:
 
-      - name: Build Angular project name selfHostedRunners
-        if: ${{env.PROJECT_SELECTION == 'selfHostedRunners'}}
-        run: |
-          # Run the PowerShell script
-          pwsh -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\secondProject.ps1
+  #     - name: Display Files
+  #       run: echo ${{}}
+
+  #     - name: Build Angular project name secondProject
+  #       if: ${{env.PROJECT_SELECTION == 'secondProject'}}
+  #       run: |
+  #         # Run the PowerShell script
+  #         pwsh -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\secondProject.ps1
+
+  #     - name: Build Angular project name selfHostedRunners
+  #       if: ${{env.PROJECT_SELECTION == 'selfHostedRunners'}}
+  #       run: |
+  #         # Run the PowerShell script
+  #         pwsh -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\secondProject.ps1
