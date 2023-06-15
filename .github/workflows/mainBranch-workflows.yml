@@ -67,7 +67,7 @@ jobs:
     - name: Build Angular project name selfHostedRunners
       if: ${{contains(steps.file_changes.outputs.result,'selfHostedRunners')}}
       run: |
-        # Run the PowerShell script
+        # Run the PowerShell script 
         powershell -ExecutionPolicy Bypass -File C:\powerShellScript\angular\build\selfHostedRunners.ps1
 
         
